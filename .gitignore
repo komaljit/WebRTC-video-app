@@ -1,0 +1,9 @@
+# See https://help.github.com/ignore-files/ for more about ignoring files.
+
+.idea/*
+
+node_modules/
+.idea
+__pycache__
+
+__pycache__/
