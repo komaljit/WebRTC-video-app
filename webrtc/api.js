@@ -1,3 +1,4 @@
+// api call to django aerver
 var API = 'http://127.0.0.1:8000';
 
 function doRegister(payload){
@@ -13,38 +14,22 @@ function doRegister(payload){
     });
 }
 
-function getPeer(payload){
+function getPeer(payload, callback){
     fetch(API+'/getpeer/', {
-        method: 'GET',
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(payload)
     }).then(function(res){
         console.log("inside getpeer api");
-        return res;
+        return res.json();
+    }).then(function(res){
+        console.log("inside api file");
+        callback(res);
     });
 }
 
-// export getPeer = getPeer;
 exports.getPeer = getPeer;
 exports.doRegister = doRegister;
 
-
-// fetch(`${api}/users/`, {
-//         method: 'POST',
-//         headers: {
-//             ...headers,
-//         'Content-Type': 'application/json'
-//     },
-//     /*credentials:'include',*/
-//     body: JSON.stringify(payload),
-//     credentials:'include'
-// }).then(res => {
-//
-//     return res.json();
-// })
-// .catch(error => {
-//     console.log("This is error");
-// return error;
-// });
