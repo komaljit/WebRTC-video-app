@@ -1,6 +1,6 @@
 from rest_framework.views import APIView
 from rest_framework.generics import RetrieveAPIView
-from rest_framework.authentication import SessionAuthentication
+from django.shortcuts import get_object_or_404
 from .serializer import RegisterSerializer, GetPeerSerializer
 from rest_framework.response import Response
 from .models import Peer
@@ -15,6 +15,7 @@ class RegisterApi(APIView):
 
     def create(self, request):
         print(request.data)
+        print("here")
         serializer = self.serializer_class(data=request.data)
         print(serializer.is_valid())
         if serializer.is_valid(raise_exception=Response(status=400)):
@@ -24,16 +25,20 @@ class RegisterApi(APIView):
             return Response(status=400)
 
 
-class GetPeerId(RetrieveAPIView):
+class GetPeerId(APIView):
     # authentication_classes = (SessionAuthentication,)
     serializer_class = GetPeerSerializer
 
-    def retrieve(self, request, *args, **kwargs):
+    def post(self, request):
+        print(self.request.data)
+        return self.retrieve(request)
+
+    def retrieve(self, request):
         instance = self.get_object()
-        serializer = self.get_serializer_class()
+        serializer = self.serializer_class
         serializer_data = serializer(instance)
+        print(serializer_data.data)
         return Response(serializer_data.data)
 
     def get_object(self):
-        email = self.request.data.get('email')
-        return Peer.objects.get(email=email)
+        return get_object_or_404(Peer, email=self.request.data.get('email'))

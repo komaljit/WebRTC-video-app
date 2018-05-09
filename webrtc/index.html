@@ -10,46 +10,107 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
 </head>
-<body>
 
-    <div class="view2">
+<body>
     <nav class="navbar navbar-expand-lg  bg-dark">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03"
                 aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-        <input type="text" name="email" placeholder="Enter email" id="email"/>
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                 <li class="nav-item active">
-                    <a class="nav-link" href='#init'>Register<span class="sr-only">(current)</span></a>
-                </li>
-
-                <li class="nav-item active">
-                    <a class="nav-link" href='#'>About us<span class="sr-only">(current)</span></a>
+                    <p style="color:Green">Welcome to the app</p>
                 </li>
 
             </ul>
+        </div>
+    </nav>
+    <div></div>
 
+    <div class="container" style="padding-top:20px;" id="view1">
+        <div class="row">
+            <div class="col-md-9 personal-info">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">Email:</label>
+                        <div class="col-lg-8">
+                            <input class="form-control" type="text" placeholder="email" id="email">
+                        </div><!-- closing col-lg-8-->
+                    </div><!-- closing form-group-->
+                    <button type="button" class="btn btn-primary" onclick=registerClick()>Sign In</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="view2">
+        <div class="container">
+        <div class="row"></div>
+        <div class="row">
+            <div class="col-md-9 personal-info">
+                <label>Welcome  </label>
+                <b id="username"></b>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-9 personal-info">
+                <a href="/#init"><button id="register" class="btn btn-primary" type="button">Register</button><br/></a>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label">Other ID</label>
+                    <div class="col-lg-8">
+                        <input class="form-control" type="text" placeholder="email" id="otherId">
+                        <br>
+                        <a href="/#init"><button id="connect" class="btn btn-primary">connect</button><br/></a>
+                    </div><!-- closing col-lg-8-->
+                </div><!-- closing form-group-->
+
+            </div>
         </div>
 
-    </nav>
 
-    <div>
-        <button id="api">API check</button>
-
-        <label>Your ID:</label><br/>
-        <textarea id="yourId"></textarea><br/>
-        <label>Other ID:</label><br/>
-        <textarea id="otherId"></textarea>
-        <button id="connect">connect</button><br/>
-        <label>Enter Message:</label><br/>
-        <textarea id="yourMessage"></textarea>
-        <button id="send">send</button>
-        <pre id="messages"></pre>
+                <!---->
+                <!--<label>Enter Message:</label><br/>-->
+                <!--<textarea id="yourMessage"></textarea>-->
+                <!--<button id="send">send</button>-->
+                <!--<pre id="messages"></pre>-->
         <script src="bundle.js" charset="utf-8"></script>
 
     </div>
     </div>
+
+
+    <script>
+        function registerClick() {
+            console.log(document.getElementById('email').value);
+            var user = document.getElementById('email').value;
+            console.log(user);
+            if (user) {
+                localStorage.setItem('user', user);
+            }
+            else{
+                alert('please enter email to register')
+            }
+        }
+        function changeView(){
+            var user = localStorage.getItem('user');
+            console.log("here");
+            var view1 = document.getElementById('view1');
+            var view2 = document.getElementById('view2');
+            console.log(user);
+            if (user){
+                view2.style.display = "block";
+                view1.style.display = "None";
+                console.log("sd");
+                document.getElementById('username').innerHTML = user;
+            }
+            else {
+                view2.style.display = "None";
+                view1.style.display = "block";
+            }
+        }
+        window.onload = changeView;
+//        alert(window.onload);
+    </script>
 
 </body>

@@ -13,11 +13,11 @@ userMedia({ video: true, audio: true }, function (err, stream) {
     });
 
     peer.on('signal', function (data) {
-        console.log('hereeeeeee');
-        document.getElementById('yourId').value = JSON.stringify(data);
+        console.log('here');
         var payload = {};
+        localStorage.setItem("yourId", data);
         payload ['rtc_id'] = JSON.stringify(data);
-        payload ['email'] = document.getElementById('email').value;
+        payload ['email'] = localStorage.getItem('user');
         console.log(payload.email);
         API.doRegister(payload)
         // document.getElementById('yourId').value = JSON.stringify(data);
@@ -25,33 +25,16 @@ userMedia({ video: true, audio: true }, function (err, stream) {
 
     document.getElementById('connect').addEventListener('click', function () {
         var payload = {};
-        payload['otherId'] = JSON.parse(document.getElementById('otherId').value);
-        api.getPeer(payload).then(function(res){
+        payload['email'] = document.getElementById('otherId').value;
+        API.getPeer(payload,function(res){
             console.log("inside api file");
-            return res;
+            console.log(res);
+            // var otherId = JSON.parse(document.getElementById('otherId').value);
+            var otherId = JSON.parse(res.rtc_id);
+            peer.signal(otherId);
         });
-
-        // peer.signal(otherId);
     });
 
-    // document.getElementById('api').addEventListener('click', function () {
-    //     console.log("api button working");
-    //     var payload = {};
-    //     var yourId = JSON.parse(document.getElementById('yourId').value);
-    //     payload ['rtc_id'] = JSON.stringify(yourId);
-    //     payload ['email'] = document.getElementById('email').value;
-    //     console.log(payload.email);
-    //     API.doRegister(payload);
-    // });
-
-    document.getElementById('send').addEventListener('click', function () {
-        var yourMessage = document.getElementById('yourMessage').value;
-        peer.send(yourMessage)
-    });
-
-    peer.on('data', function (data) {
-        document.getElementById('messages').textContent += data + '\n'
-    });
 
     peer.on('stream', function (stream) {
         var video = document.createElement('video');
